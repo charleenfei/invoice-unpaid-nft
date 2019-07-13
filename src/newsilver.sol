@@ -20,9 +20,20 @@ import "privacy-enabled-erc721/nft.sol";
 
 
 contract NewSilverLoanNFT is NFT {
+    struct TokenData {
+        uint document_version;
+        uint amount;
+        uint asis_value;
+        uint rehab_value;
+        address borrower;
+    }
+    mapping (uint => TokenData) public data;
+   
     constructor (address anchors_) NFT("Newsilver Loan NFT", "NSLN", anchors_) public {
     }
+
     function mint(address usr, uint tkn, uint anchor, bytes32 data_root, bytes32 signatures_root) public {
+        data[tkn] = TokenData(anchor, 0, 0, 0, usr);
         _mint(usr, tkn);
     }
 } 
