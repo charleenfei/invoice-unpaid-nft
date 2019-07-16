@@ -20,10 +20,6 @@ import "privacy-enabled-erc721/nft.sol";
 
 
 contract NewSilverLoanNFT is NFT {
-
-    // array of field names that are being proved
-    bytes[] internal _mandatoryFields;
-
     // compact property for 'amount'
     bytes constant internal AMOUNT = hex"0x010000000000001cdb691b0c78e9e1432d354d52e26b3cd5054cd1261c4272bf8fce2bcf285908f300000005";
     // compact property for 'asis_value'
@@ -41,17 +37,15 @@ contract NewSilverLoanNFT is NFT {
     mapping (uint => TokenData) public data;
 
     constructor (address anchors_) NFT("Newsilver Loan NFT", "NSLN", anchors_) public {
-      _mandatoryFields.push(AMOUNT);
-      _mandatoryFields.push(ASIS_VALUE);
-      _mandatoryFields.push(REHAB_VALUE);
+
     }
 
     function mint(address usr, uint tkn, uint anchor, bytes32 data_root, bytes32 signatures_root bytes[] memory properties bytes32[] memory values bytes32[] memory salts, [][]bytes32 proofs) public {
 
-      bytes[] memory property_names =
-      for (uint i = 0; i < 3; i++) {
-      require(property[i] == _mandatoryFields[i], "Provided proof is not one of the mandatory fields.");
-      }
+
+      require(property[0] == AMOUNT, "Provided proof is not one of the mandatory fields.");
+      require(property[1] == ASIS_VALUE, "Provided proof is not one of the mandatory fields.");
+      require(property[2] == REHAB_VALUE, "Provided proof is not one of the mandatory fields.");
 
       data[tkn] = TokenData(
         anchor,
