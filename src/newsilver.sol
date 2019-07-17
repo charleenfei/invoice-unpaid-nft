@@ -41,7 +41,6 @@ contract NewSilverLoanNFT is NFT {
     }
 
     // --- Utils ---
-
 		function bytesToUint(bytes memory b) public returns (uint256){
       uint256 number;
       for (uint i = 0; i < b.length; i++){
@@ -51,7 +50,6 @@ contract NewSilverLoanNFT is NFT {
     }
 
     // --- Mint Method ---
-
     function mint(address usr, uint tkn, uint anchor, bytes32 data_root, bytes32 signatures_root, bytes[] memory properties, bytes[] memory values, bytes32[] memory salts, bytes32[][] memory proofs) public {
 
       data[tkn] = TokenData(
@@ -63,7 +61,7 @@ contract NewSilverLoanNFT is NFT {
       );
 
       bytes32[] memory leaves = new bytes32[](3);
-			leaves[0] = sha256(abi.encodePacked(AMOUNT, values[0], salts[0]));
+      leaves[0] = sha256(abi.encodePacked(AMOUNT, values[0], salts[0]));
       leaves[1] = sha256(abi.encodePacked(ASIS_VALUE, values[1], salts[1]));
       leaves[2] = sha256(abi.encodePacked(REHAB_VALUE, values[2], salts[2]));
 

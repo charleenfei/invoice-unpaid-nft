@@ -38,14 +38,6 @@ contract AnchorMock {
     }
 }
 
-contract TestNFT is NFT {
-    constructor (address anchors_) NFT("Newsilver Loan NFT", "NSLN", anchors_) public {
-    }
-    function checkAnchor(uint anchor, bytes32 droot, bytes32 sigs) public returns (bool) {
-        return true;
-    }
-}
-
 contract NFTTest is DSTest {
     NewSilverLoanNFT nft;
     address         self;
