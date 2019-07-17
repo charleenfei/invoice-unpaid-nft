@@ -14,6 +14,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 pragma solidity >=0.4.23;
+pragma experimental ABIEncoderV2;
 
 import "ds-test/test.sol";
 import "privacy-enabled-erc721/nft.sol";
@@ -39,18 +40,34 @@ contract NewSilverLoanNFT is NFT {
     constructor (address anchors_) NFT("Newsilver Loan NFT", "NSLN", anchors_) public {
     }
 
+    // --- Utils ---
+
+    function assertEqBytes(bytes memory a, bytes memory b) internal returns (bool) {
+      if (a.length == b.length) {
+       for (uint i = 0; i < a.length; i++) {
+        if (a[i] != b[i]) {
+          return false;
+        }
+       }
+       return true;
+      }
+      return false;
+    }
+
+    // --- Mint Method ---
+
     function mint(address usr, uint tkn, uint anchor, bytes32 data_root, bytes32 signatures_root, bytes[] memory properties, bytes32[] memory values, bytes32[] memory salts, bytes32[][] memory proofs) public {
 
 
-      require(properties[0] == AMOUNT, "Provided proof is not one of the mandatory fields.");
-      require(properties[1] == ASIS_VALUE, "Provided proof is not one of the mandatory fields.");
-      require(properties[2] == REHAB_VALUE, "Provided proof is not one of the mandatory fields.");
+      require(assertEqBytes(properties[0], AMOUNT), "Provided proof is not one of the mandatory fields.");
+      require(assertEqBytes(properties[1], ASIS_VALUE), "Provided proof is not one of the mandatory fields.");
+      require(assertEqBytes(properties[2], REHAB_VALUE), "Provided proof is not one of the mandatory fields.");
 
       data[tkn] = TokenData(
         anchor,
-        values[0],
-        values[1],
-        values[2],
+        uint(values[0]),
+        uint(values[1]),
+        uint(values[2]),
         usr
       );
 
@@ -58,10 +75,13 @@ contract NewSilverLoanNFT is NFT {
       bytes32 leaf1 = sha256(abi.encodePacked(properties[0], values[0], salts[0]));
       bytes32 leaf2 = sha256(abi.encodePacked(properties[1], values[1], salts[1]));
       bytes32 leaf3 = sha256(abi.encodePacked(properties[2], values[2], salts[2]));
-      bytes32[3] memory leaves = [leaf1, leaf2, leaf3];
+      bytes32[] memory leaves = new bytes32[](3);
+      leaves[0] = leaf1;
+      leaves[1] = leaf2;
+      leaves[3] = leaf3;
 
-      verify(leaves, proofs, data_root);
-      _checkAnchor(anchor, data_root, signatures_root);
+      require(verify(proofs, data_root, leaves), "Validation of proofs failed.");
+      require(_checkAnchor(anchor, data_root, signatures_root), "Validation against document anchor failed.");
       _mint(usr, tkn);
     }
 }
