@@ -37,7 +37,6 @@ contract NewSilverLoanNFT is NFT {
     mapping (uint => TokenData) public data;
 
     constructor (address anchors_) NFT("Newsilver Loan NFT", "NSLN", anchors_) public {
-
     }
 
     function mint(address usr, uint tkn, uint anchor, bytes32 data_root, bytes32 signatures_root bytes[] memory properties bytes32[] memory values bytes32[] memory salts, [][]bytes32 proofs) public {
@@ -61,7 +60,7 @@ contract NewSilverLoanNFT is NFT {
       leafs[2] = (sha256(abi.encodePacked(properties[2], values[2], salt[2]))
 
       verify(leafs, proofs, root)
-      // check anchor
+      _checkAnchor(anchor, data_root, signatures_root)
       _mint(usr, tkn);
     }
 }
