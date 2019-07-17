@@ -42,18 +42,6 @@ contract NewSilverLoanNFT is NFT {
 
     // --- Utils ---
 
-    function assertEqBytes(bytes memory a, bytes memory b) internal returns (bool) {
-      if (a.length == b.length) {
-       for (uint i = 0; i < a.length; i++) {
-        if (a[i] != b[i]) {
-          return false;
-        }
-       }
-       return true;
-      }
-      return false;
-    }
-
 		function bytesToUint(bytes memory b) public returns (uint256){
       uint256 number;
       for (uint i = 0; i < b.length; i++){
@@ -66,10 +54,6 @@ contract NewSilverLoanNFT is NFT {
 
     function mint(address usr, uint tkn, uint anchor, bytes32 data_root, bytes32 signatures_root, bytes[] memory properties, bytes[] memory values, bytes32[] memory salts, bytes32[][] memory proofs) public {
 
-      require(assertEqBytes(properties[0], AMOUNT), "Provided proof is not one of the mandatory fields.");
-      require(assertEqBytes(properties[1], ASIS_VALUE), "Provided proof is not one of the mandatory fields.");
-      require(assertEqBytes(properties[2], REHAB_VALUE), "Provided proof is not one of the mandatory fields.");
-
       data[tkn] = TokenData(
         anchor,
         bytesToUint(values[0]),
@@ -79,9 +63,9 @@ contract NewSilverLoanNFT is NFT {
       );
 
       bytes32[] memory leaves = new bytes32[](3);
-			leaves[0] = sha256(abi.encodePacked(properties[0], values[0], salts[0]));
-      leaves[1] = sha256(abi.encodePacked(properties[1], values[1], salts[1]));
-      leaves[2] = sha256(abi.encodePacked(properties[2], values[2], salts[2]));
+			leaves[0] = sha256(abi.encodePacked(AMOUNT, values[0], salts[0]));
+      leaves[1] = sha256(abi.encodePacked(ASIS_VALUE, values[1], salts[1]));
+      leaves[2] = sha256(abi.encodePacked(REHAB_VALUE, values[2], salts[2]));
 
       require(verify(proofs, data_root, leaves), "Validation of proofs failed.");
       require(_checkAnchor(anchor, data_root, signatures_root), "Validation against document anchor failed.");
