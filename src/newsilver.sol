@@ -28,6 +28,9 @@ contract NewSilverLoanNFT is NFT {
     // compact property for 'rehab_value'
     bytes constant internal REHAB_VALUE = hex"010000000000001cc26ac898297e7f1c950218e45d1933059ab9c2b284aac57b36e1f6cd46829ead00000005";
 
+		// tokenid
+    bytes constant internal TOKEN_ID = hex"010000000000001449ad85ea90df0b8e851ec4822abfb3dc64d56f78000000000000000000000000";
+
     struct TokenData {
         uint document_version;
         uint amount;
@@ -54,9 +57,17 @@ contract NewSilverLoanNFT is NFT {
       return false;
     }
 
+		function bytesToUint(bytes memory b) public returns (uint256){
+      uint256 number;
+      for (uint i = 0; i < b.length; i++){
+              number = number + uint8(b[i]) * (2 ** (8 * (b.length-(i + 1))));
+            }
+      return number;
+    }
+
     // --- Mint Method ---
 
-    function mint(address usr, uint tkn, uint anchor, bytes32 data_root, bytes32 signatures_root, bytes[] memory properties, bytes32[] memory values, bytes32[] memory salts, bytes32[][] memory proofs) public {
+    function mint(address usr, uint tkn, uint anchor, bytes32 data_root, bytes32 signatures_root, bytes[] memory properties, bytes[] memory values, bytes32[] memory salts, bytes32[][] memory proofs) public {
 
       require(assertEqBytes(properties[0], AMOUNT), "Provided proof is not one of the mandatory fields.");
       require(assertEqBytes(properties[1], ASIS_VALUE), "Provided proof is not one of the mandatory fields.");
@@ -64,9 +75,9 @@ contract NewSilverLoanNFT is NFT {
 
       data[tkn] = TokenData(
         anchor,
-        uint(values[0]),
-        uint(values[1]),
-        uint(values[2]),
+        bytesToUint(values[0]),
+        bytesToUint(values[1]),
+        bytesToUint(values[2]),
         usr
       );
 
