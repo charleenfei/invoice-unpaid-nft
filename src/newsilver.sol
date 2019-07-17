@@ -28,9 +28,6 @@ contract NewSilverLoanNFT is NFT {
     // compact property for 'rehab_value'
     bytes constant internal REHAB_VALUE = hex"010000000000001cc26ac898297e7f1c950218e45d1933059ab9c2b284aac57b36e1f6cd46829ead00000005";
 
-		// tokenid
-    bytes constant internal TOKEN_ID = hex"010000000000001449ad85ea90df0b8e851ec4822abfb3dc64d56f78000000000000000000000000";
-
     struct TokenData {
         uint document_version;
         uint amount;
