@@ -21,11 +21,11 @@ import "privacy-enabled-erc721/nft.sol";
 
 
 contract NewSilverLoanNFT is NFT {
-    // compact property for 'amount'
+    // compact property for 'loanAmount'
     bytes constant internal AMOUNT = hex"010000000000001cdb691b0c78e9e1432d354d52e26b3cd5054cd1261c4272bf8fce2bcf285908f300000005";
-    // compact property for 'asis_value'
+    // compact property for 'asIsValue'
     bytes constant internal ASIS_VALUE = hex"010000000000001cc559f889f1afe5f0e8d3ad327b66c9b2facadb9918e2ba45963fe76e590f9e4200000005";
-    // compact property for 'rehab_value'
+    // compact property for 'afterRehabValue'
     bytes constant internal REHAB_VALUE = hex"010000000000001cc26ac898297e7f1c950218e45d1933059ab9c2b284aac57b36e1f6cd46829ead00000005";
 
     struct TokenData {
