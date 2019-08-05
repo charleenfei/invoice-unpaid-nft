@@ -1,4 +1,4 @@
-// Copyright (C) 2019 lucasvo
+// Copyright (C) 2019 Centrifuge GmbH
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
@@ -20,13 +20,13 @@ import "ds-test/test.sol";
 import "privacy-enabled-erc721/nft.sol";
 
 
-contract NewSilverLoanNFT is NFT {
-    // compact property for 'loanAmount'
-    bytes constant internal AMOUNT = hex"010000000000001cdb691b0c78e9e1432d354d52e26b3cd5054cd1261c4272bf8fce2bcf285908f300000005";
-    // compact property for 'asIsValue'
-    bytes constant internal ASIS_VALUE = hex"010000000000001cc559f889f1afe5f0e8d3ad327b66c9b2facadb9918e2ba45963fe76e590f9e4200000005";
-    // compact property for 'afterRehabValue'
-    bytes constant internal REHAB_VALUE = hex"010000000000001cc26ac898297e7f1c950218e45d1933059ab9c2b284aac57b36e1f6cd46829ead00000005";
+contract InvoiceUnpaidNFT is NFT {
+    // compact property for ''
+    bytes constant internal ;
+    // compact property for ''
+    bytes constant internal ;
+    // compact property for ''
+    bytes constant internal ;
 
     struct TokenData {
         uint document_version;
@@ -37,7 +37,7 @@ contract NewSilverLoanNFT is NFT {
     }
     mapping (uint => TokenData) public data;
 
-    constructor (address anchors_) NFT("Newsilver Loan NFT", "NSLN", anchors_) public {
+    constructor (address anchors_) NFT("Invoice Unpaid NFT", "CNT_INV_UNPD", anchors_) public {
     }
 
     // --- Utils ---
@@ -61,9 +61,9 @@ contract NewSilverLoanNFT is NFT {
       );
 
       bytes32[] memory leaves = new bytes32[](3);
-      leaves[0] = sha256(abi.encodePacked(AMOUNT, values[0], salts[0]));
-      leaves[1] = sha256(abi.encodePacked(ASIS_VALUE, values[1], salts[1]));
-      leaves[2] = sha256(abi.encodePacked(REHAB_VALUE, values[2], salts[2]));
+      leaves[0] = sha256(abi.encodePacked(, values[0], salts[0]));
+      leaves[1] = sha256(abi.encodePacked(, values[1], salts[1]));
+      leaves[2] = sha256(abi.encodePacked(, values[2], salts[2]));
 
       require(verify(proofs, data_root, leaves), "Validation of proofs failed.");
       require(_checkAnchor(anchor, data_root, signatures_root), "Validation against document anchor failed.");
