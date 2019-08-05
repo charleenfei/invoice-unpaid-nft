@@ -21,54 +21,54 @@ import "privacy-enabled-erc721/nft.sol";
 
 
 contract InvoiceUnpaidNFT is NFT {
-    // compact property for ''
-    bytes constant internal ;
-    // compact property for ''
-    bytes constant internal ;
-    // compact property for ''
-    bytes constant internal ;
-
-    struct TokenData {
-        uint document_version;
-        uint amount;
-        uint asis_value;
-        uint rehab_value;
-        address borrower;
-    }
-    mapping (uint => TokenData) public data;
-
-    constructor (address anchors_) NFT("Invoice Unpaid NFT", "CNT_INV_UNPD", anchors_) public {
-    }
-
-    // --- Utils ---
-    function bytesToUint(bytes memory b) public returns (uint256){
-      uint256 number;
-      for (uint i = 0; i < b.length; i++){
-              number = number + uint8(b[i]) * (2 ** (8 * (b.length - (i + 1))));
-            }
-      return number;
-    }
-
-    // --- Mint Method ---
-    function mint(address usr, uint tkn, uint anchor, bytes32 data_root, bytes32 signatures_root, bytes[] memory properties, bytes[] memory values, bytes32[] memory salts, bytes32[][] memory proofs) public {
-
-      data[tkn] = TokenData(
-        anchor,
-        bytesToUint(values[0]),
-        bytesToUint(values[1]),
-        bytesToUint(values[2]),
-        usr
-      );
-
-      bytes32[] memory leaves = new bytes32[](3);
-      leaves[0] = sha256(abi.encodePacked(, values[0], salts[0]));
-      leaves[1] = sha256(abi.encodePacked(, values[1], salts[1]));
-      leaves[2] = sha256(abi.encodePacked(, values[2], salts[2]));
-
-      require(verify(proofs, data_root, leaves), "Validation of proofs failed.");
-      require(_checkAnchor(anchor, data_root, signatures_root), "Validation against document anchor failed.");
-      _mint(usr, tkn);
-    }
+//    // compact property for ''
+//    bytes constant internal ;
+//    // compact property for ''
+//    bytes constant internal ;
+//    // compact property for ''
+//    bytes constant internal ;
+//
+//    struct TokenData {
+//        uint document_version;
+//        uint amount;
+//        uint asis_value;
+//        uint rehab_value;
+//        address borrower;
+//    }
+//    mapping (uint => TokenData) public data;
+//
+//    constructor (address anchors_) NFT("Invoice Unpaid NFT", "CNT_INV_UNPD", anchors_) public {
+//    }
+//
+//    // --- Utils ---
+//    function bytesToUint(bytes memory b) public returns (uint256){
+//      uint256 number;
+//      for (uint i = 0; i < b.length; i++){
+//              number = number + uint8(b[i]) * (2 ** (8 * (b.length - (i + 1))));
+//            }
+//      return number;
+//    }
+//
+//    // --- Mint Method ---
+//    function mint(address usr, uint tkn, uint anchor, bytes32 data_root, bytes32 signatures_root, bytes[] memory properties, bytes[] memory values, bytes32[] memory salts, bytes32[][] memory proofs) public {
+//
+//      data[tkn] = TokenData(
+//        anchor,
+//        bytesToUint(values[0]),
+//        bytesToUint(values[1]),
+//        bytesToUint(values[2]),
+//        usr
+//      );
+//
+//      bytes32[] memory leaves = new bytes32[](3);
+//      leaves[0] = sha256(abi.encodePacked(, values[0], salts[0]));
+//      leaves[1] = sha256(abi.encodePacked(, values[1], salts[1]));
+//      leaves[2] = sha256(abi.encodePacked(, values[2], salts[2]));
+//
+//      require(verify(proofs, data_root, leaves), "Validation of proofs failed.");
+//      require(_checkAnchor(anchor, data_root, signatures_root), "Validation against document anchor failed.");
+//      _mint(usr, tkn);
+//    }
 }
 
 
