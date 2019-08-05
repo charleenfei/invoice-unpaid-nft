@@ -3,4 +3,4 @@
 	url = https://github.com/dapphub/ds-test
 [submodule "lib/privacy-enabled-erc721"]
 	path = lib/privacy-enabled-erc721
-	url = git@github.com:lucasvo/privacy-enabled-erc721.git
+	url = https://github.com/centrifuge/privacy-enabled-erc721
