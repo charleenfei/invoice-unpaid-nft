@@ -23,13 +23,11 @@ contract AnchorMock {
     bytes32 documentRoot;
     uint32  blockNumber;
 
-    function file(bytes32 documentRoot_, uint32 blockNumber_) public {
-        documentRoot = documentRoot_;
-        blockNumber = blockNumber_;
-    }
-
     function getAnchorById(uint id) public view returns (uint, bytes32, uint32) {
-        return (id, documentRoot, blockNumber);
+        if (id == 0)
+            return (id, 0x7eba2627f27e0c2b49cd7f3aee6a11ca2637e1e07d5bb82b68253e7905ca074c, 0);
+        else
+            return (id, 0x0, 0);
     }
 }
 
@@ -74,6 +72,7 @@ contract IDFactoryMock {
 contract InvoiceUnpaidNFTTest is DSTest {
     InvoiceUnpaidNFT nft;
     address         usr1;
+    address         test;
     KeyManagerMock  key_manager;
     AnchorMock      anchors;
     IDFactoryMock   identity_factory;
@@ -193,9 +192,7 @@ contract InvoiceUnpaidNFTTest is DSTest {
         // Setting KeyManagerMock to return a valid key
         key_manager.file(true);
         key_manager.file(uint32(0));
-        // Setting AnchorMock for newestDocVersion
-        anchors.file(0x0, 0);
-//        // Test that the mint method works
+        // Test that the mint method works
         uint tkn = abi.decode(values[4], (uint));
         nft.mint(usr1, tkn, 0, data_root, sigs, signature, properties, values, salts, proofs);
         assertEq(nft.ownerOf(tkn), usr1);
