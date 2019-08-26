@@ -62,16 +62,16 @@ contract InvoiceUnpaidNFT is NFT {
     usr
   );
 
-  bytes32[] memory leaves = new bytes32[](4);
+  bytes32[] memory leaves = new bytes32[](5);
   leaves[0] = sha256(abi.encodePacked(GROSS_AMOUNT, values[0], salts[0]));
   leaves[1] = sha256(abi.encodePacked(CURRENCY, values[1], salts[1]));
   leaves[2] = sha256(abi.encodePacked(DUE_DATE, values[2], salts[2]));
   leaves[3] = sha256(abi.encodePacked(NEXT_VERSION, values[3], salts[3]));
-//  leaves[4] = sha256(abi.encodePacked(NFTS, values[4], salts[4]));
+  leaves[4] = sha256(abi.encodePacked(properties[4], values[4], salts[4]));
 
   require(verify(proofs, data_root, leaves), "Validation of proofs failed.");
-//  require(_latestDoc(data_root, bytesToUint(values[3])), "Document is not the latest version.");
-//  require(_checkTokenData(tkn, properties[4], values[4]), "Invalid token data");
+  require(_latestDoc(data_root, bytesToUint(values[3])), "Document is not the latest version.");
+  require(_checkTokenData(tkn, properties[4], values[4]), "Invalid token data");
   require(_checkAnchor(anchor, data_root, signatures_root), "Validation against document anchor failed.");
   _signed(anchor, data_root, signature);
   _mint(usr, tkn);
