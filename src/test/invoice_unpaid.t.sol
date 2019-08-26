@@ -72,7 +72,7 @@ contract IDFactoryMock {
 contract InvoiceUnpaidNFTTest is DSTest {
     InvoiceUnpaidNFT nft;
     address         usr1;
-    address         test;
+    address         self;
     KeyManagerMock  key_manager;
     AnchorMock      anchors;
     IDFactoryMock   identity_factory;
@@ -89,6 +89,7 @@ contract InvoiceUnpaidNFTTest is DSTest {
 
     function setUp() public {
         usr1 = address(1234);
+        self = 0xE821D1b50945Ff736992D0AF793684DD53ac7fA7;
         anchors = new AnchorMock();
         key_manager = new KeyManagerMock();
         identity_factory = new IDFactoryMock();
