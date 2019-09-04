@@ -71,7 +71,7 @@ contract InvoiceUnpaidNFT is NFT {
 
   require(verify(proofs, data_root, leaves), "Validation of proofs failed.");
   require(_latestDoc(data_root, bytesToUint(values[3])), "Document is not the latest version.");
-  require(_checkTokenData(tkn, properties[4], values[4]), "Invalid token data");
+//  require(_checkTokenData(tkn, properties[4], values[4]), "Invalid token data");
   require(_checkAnchor(anchor, data_root, signatures_root), "Validation against document anchor failed.");
   _signed(anchor, data_root, signature);
   _mint(usr, tkn);
